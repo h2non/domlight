@@ -1,0 +1,31 @@
+{
+  "name": "domlight",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "Spotlight DOM elements",
+  "repository": "h2non/domlight",
+  "authors": [
+    "Hector Zarco (zzarcon)",
+    "Tomas Aparicio (h2non)"
+  ],
+  "main": "domlight.js",
+  "keywords": [
+    "focus",
+    "dom",
+    "element",
+    "overlay",
+    "spotlight"
+  ],
+  "ignore": [
+    "sample-app",
+    ".gitignore",
+    ".travis.yml",
+    ".editorconfig",
+    "Makefile",
+    "package.json",
+    "component.json",
+    "test",
+    "showcase",
+    "example"
+  ]
+}
