@@ -2,7 +2,7 @@
 
 A lightweight and dependency-free micro library to easily spotlight DOM elements
 
-`domlight` was originally based on [Focusable](https://github.com/zzarcon/focusable), but it includes missing features such as multiple elements spotlight, several refactors and uses pure DOM API (removes jQuery dependency)
+`domlight` was originally based on [Focusable](https://github.com/zzarcon/focusable), but it includes missing features such as multiple elements spotlight, several refactors and uses pure DOM API (no jQuery dependency)
 
 ## Showcase
 
