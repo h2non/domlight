@@ -19,6 +19,7 @@
     "dom",
     "element",
     "overlay",
-    "spotlight"
+    "spotlight",
+    "focusable"
   ]
 }

@@ -14,7 +14,8 @@
     "dom",
     "element",
     "overlay",
-    "spotlight"
+    "spotlight",
+    "focusable"
   ],
   "ignore": [
     "sample-app",

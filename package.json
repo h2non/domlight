@@ -17,7 +17,8 @@
     "dom",
     "element",
     "overlay",
-    "spotlight"
+    "spotlight",
+    "focusable"
   ],
   "devDependencies": {
     "http-server": "^0.7.4",
