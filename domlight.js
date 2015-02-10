@@ -1,4 +1,4 @@
-/*! domlight - v.0.1.0 - MIT License - https://github.com/h2non/domlight */
+/*! domlight - v.0.1.1 - MIT License - https://github.com/h2non/domlight */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['exports'], factory)
@@ -13,7 +13,7 @@
 }(this, function (exports) {
   'use strict'
 
-  var VERSION = '0.1.0'
+  var VERSION = '0.1.1'
   var NODE_ID = 'focusable-overlay'
 
   var slice = Array.prototype.slice

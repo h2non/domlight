@@ -1,4 +1,4 @@
-VERSION = 0.1.0
+VERSION = 0.1.1
 UGLIFYJS = ./node_modules/.bin/uglifyjs
 MOCHA_PHANTOM = ./node_modules/.bin/mocha-phantomjs
 HTTP_SERVER = ./node_modules/.bin/http-server

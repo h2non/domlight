@@ -31,7 +31,7 @@ npm install domlight
 
 Or loading the script remotely
 ```html
-<script src="//cdn.rawgit.com/h2non/domlight/0.1.0/domlight.js"></script>
+<script src="//cdn.rawgit.com/h2non/domlight/0.1.1/domlight.js"></script>
 ```
 
 ## Browser Support
