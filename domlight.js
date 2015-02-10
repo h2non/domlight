@@ -109,7 +109,7 @@
   function setFocus(element, options) {
     var styleEl = window.getComputedStyle(element)
     var position = styleEl.getPropertyValue('position')
-    var zIndex = +styleEl.getPropertyValue('z-index')
+    var zIndex = styleEl.getPropertyValue('z-index')
 
     elements.push({
       zIndex: zIndex,
@@ -121,7 +121,7 @@
     if (position === 'static') {
       element.style.position = 'relative'
     }
-    if (zIndex < 10000) {
+    if ((+zIndex || 1) < 10000) {
       element.style.zIndex = 10000
     }
 
