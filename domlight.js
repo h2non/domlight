@@ -108,16 +108,22 @@
 
   function setFocus(element, options) {
     var styleEl = window.getComputedStyle(element)
+    var position = styleEl.getPropertyValue('position')
+    var zIndex = +styleEl.getPropertyValue('z-index')
 
     elements.push({
-      zIndex: styleEl.getPropertyValue('z-index'),
-      position: styleEl.getPropertyValue('z-index'),
+      zIndex: zIndex,
+      position: position,
       element: element
     })
 
     body.style.overflow = 'hidden'
-    element.style.position = 'relative'
-    element.style.zIndex = 10000
+    if (position === 'static') {
+      element.style.position = 'relative'
+    }
+    if (zIndex < 10000) {
+      element.style.zIndex = 10000
+    }
 
     if (isVisible === false) {
       createColumns(element)
