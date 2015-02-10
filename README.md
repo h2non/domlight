@@ -1,4 +1,4 @@
-# domlight [![Build Status](https://travis-ci.org/h2non/domlight.svg?branch=master)](https://travis-ci.org/h2non/domlight) [![Version](https://img.shields.io/bower/v/focusable.svg)](https://github.com/zzarcon/focusable/releases) [![Gitter chat](https://badges.gitter.im/zzarcon/focusable.png)](https://gitter.im/zzarcon/focusable) [![Stories in Ready](https://badge.waffle.io/zzarcon/focusable.png?label=ready&title=Ready)](https://waffle.io/h2non/domlight)
+# domlight [![Build Status](https://travis-ci.org/h2non/domlight.svg?branch=master)](https://travis-ci.org/h2non/domlight) [![Version](https://img.shields.io/bower/v/domlight.svg)](https://github.com/h2non/domlight/releases) [![Gitter chat](https://badges.gitter.im/h2non/domlight.png)](https://gitter.im/h2non/domlight) [![Stories in Ready](https://badge.waffle.io/h2non/domlight.png?label=ready&title=Ready)](https://waffle.io/h2non/domlight)
 
 A lightweight and dependency-free micro library to easily spotlight DOM elements
 
