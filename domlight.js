@@ -31,7 +31,7 @@
   var overlay = null
   var isSetup = false
   var isVisible = false
-  var body = document.body
+  var body = document
   var columnSelector = '#' + NODE_ID + ' .column'
 
   function Domlight(element, options) {
