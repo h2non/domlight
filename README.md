@@ -119,7 +119,7 @@ make demo
 
 ## Authors
 
-- [Hector Zarcon](https://github.com/zzarcon) - Focusable author
+- [Hector Zarcon](https://github.com/zzarcon) - Focusable original author
 - [Tomas Aparicio](https://github.com/h2non)
 
 ## License
