@@ -41,6 +41,10 @@
     input{
       text-align: center;
     }
+
+    .options {
+      position: relative;
+    }
   </style>
 </head>
 <body>
@@ -48,6 +52,7 @@
     <header>
       <button class="show" data-selector="header">Focus header</button>
       <button class="show" data-selector="ul">Focus list</button>
+      <button class="show" data-selector="ul" data-context=".options">Focus list in Options context</button>
       <button class="show" data-selector="li:first">Focus first item</button>
       <button class="show" data-selector="img">Focus image</button>
     </header>

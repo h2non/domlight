@@ -23,7 +23,8 @@
     fadeDuration: 700,
     hideOnClick: false,
     hideOnESC: true,
-    findOnResize: true
+    findOnResize: true,
+    context: null
   }
 
   var elements = []
@@ -35,33 +36,62 @@
   var columnSelector = '#' + NODE_ID + ' .column'
 
   function Domlight(element, options) {
+    options = merge(merge({}, defaults), options);
+
     if (element && element.length) {
-      element = element[0]
+
+      if (options.context) {
+        var contextElement = document.querySelector(options.context);
+        var contextHasElement = false;
+        for(var i = 0; i < element.length; i++) {
+          if (childOf(element[i], contextElement)) {
+            element = element[i];
+            contextHasElement = true;
+          }
+        }
+        if (!contextHasElement) {
+          throw new TypeError('Element is not contained in the provided context.');
+        }
+      } else {
+        element = element[0];
+      }
+
     } else if (!(element instanceof HTMLElement)) {
-      throw new TypeError('First argument should be a Node or jQuery/Zepto selector')
+      throw new TypeError('First argument should be a Node or jQuery/Zepto selector');
     }
 
-    options = merge(merge({}, defaults), options)
-    spotlightElement(element, options)
+
+    spotlightElement(element, options);
 
     return {
       element: element,
       options: options,
       isVisible: getVisibility,
       hide: function () {
-        hide(element)
+        hide(element);
       }
-    }
+    };
+  }
+
+  function childOf(c, p) {
+    while((c=c.parentNode)&&c!==p);
+    return !!c;
   }
 
   function getVisibility() {
-    return isVisible
+    return isVisible;
   }
 
   function setup(options) {
-    var newDiv = document.createElement('div')
-    newDiv.id = NODE_ID
-    body.insertBefore(newDiv, body.firstChild)
+    var newDiv = document.createElement('div');
+    newDiv.id = NODE_ID;
+    var container = document.body;
+
+    if (options.context) {
+      container = document.querySelector(options.context);
+    }
+
+    container.insertBefore(newDiv, container.firstChild);
     overlay = newDiv
     isSetup = true
 
@@ -115,9 +145,9 @@
       zIndex: zIndex,
       position: position,
       element: element
-    })
+    });
 
-    body.style.overflow = 'hidden'
+    document.body.style.overflow = 'hidden'
     if (position === 'static') {
       element.style.position = 'relative'
     }
@@ -153,56 +183,56 @@
   }
 
   function findElement(element) {
-    var index = -1
+    var index = -1;
     for (var i = 0, l = elements.length; i < l; i += 1) {
       if (elements[i].element === element) {
-        index = i
-        break
+        index = i;
+        break;
       }
     }
-    return index
+    return index;
   }
 
   function hideAll() {
-    isVisible = false
-    body.style.overflow = ''
-    overlay.style.display = 'none'
-    clearColumns()
+    isVisible = false;
+    document.body.style.overflow = '';
+    overlay.style.display = 'none';
+    clearColumns();
 
-    elements.splice(0).forEach(restoreElementStyle)
+    elements.splice(0).forEach(restoreElementStyle);
   }
 
   function restoreElementStyle(node) {
-    node.element.style.zIndex = node.zIndex
-    node.element.style.position = node.position
+    node.element.style.zIndex = node.zIndex;
+    node.element.style.position = node.position;
   }
 
   function createColumns(element) {
-    var createdColumns = 0
-    isVisible = true
-    clearColumns()
+    var createdColumns = 0;
+    isVisible = true;
+    clearColumns();
 
     while (createdColumns < 4) {
-      createColumn(element, createdColumns)
-      createdColumns += 1
+      createColumn(element, createdColumns);
+      createdColumns += 1;
     }
   }
 
   function createColumn(element, index) {
-    var offset = element.getBoundingClientRect()
-    var top = 0, left = 0, width = px(element.clientWidth), height = '100%'
+    var offset = element.getBoundingClientRect();
+    var top = 0, left = 0, width = px(element.clientWidth), height = '100%';
 
     switch (index) {
       case 0:
-        width = px(offset.left)
+        width = px(offset.left);
         break
       case 1:
-        left = px(offset.left)
-        height = px(offset.top)
+        left = px(offset.left);
+        height = px(offset.top);
         break
       case 2:
-        left = px(offset.left)
-        top = px(element.clientHeight + offset.top)
+        left = px(offset.left);
+        top = px(element.clientHeight + offset.top);
         break
       case 3:
         width = '100%'
@@ -210,31 +240,31 @@
         break
     }
 
-    var styles = 'top:' + top + ';left:' + left + ';width:' + width + ';height:' + height
-    var column = createColumnDivisor(styles)
-    overlay.appendChild(column)
+    var styles = 'top:' + top + ';left:' + left + ';width:' + width + ';height:' + height;
+    var column = createColumnDivisor(styles);
+    overlay.appendChild(column);
   }
 
   function createColumnDivisor(styles) {
-    var column = document.createElement('div')
-    column.className = 'column'
-    column.setAttribute('style', styles)
-    return column
+    var column = document.createElement('div');
+    column.className = 'column';
+    column.setAttribute('style', styles);
+    return column;
   }
 
   function clearColumns() {
-    var columns = overlay.querySelectorAll('#' + NODE_ID + ' .column')
+    var columns = overlay.querySelectorAll('#' + NODE_ID + ' .column');
     for (var i = 0, l = columns.length; i < l; i += 1) {
-      columns[i].parentNode.removeChild(columns[i])
+      columns[i].parentNode.removeChild(columns[i]);
     }
   }
 
   function px(value) {
-    return value + 'px'
+    return value + 'px';
   }
 
   function addStylesheet(options) {
-    var sheet = appendStylesheet()
+    var sheet = appendStylesheet();
 
     sheet.insertRule('#' + NODE_ID
     + '{' +
@@ -249,41 +279,41 @@
       + 'z-index: 9999;'
       + 'overflow: hidden;'
       + 'pointer-events: none;'
-    + '}', 0)
+    + '}', 0);
 
     sheet.insertRule('#' + NODE_ID + ' .column'
     + '{'
       + 'position: absolute;'
       + 'background: rgba(0,0,0,0.8);'
       + 'pointer-events: all;'
-    + '}', 1)
+    + '}', 1);
   }
 
   function appendStylesheet() {
-    var style = document.createElement('style')
-    style.appendChild(document.createTextNode(''))
-    document.head.appendChild(style)
-    return style.sheet
+    var style = document.createElement('style');
+    style.appendChild(document.createTextNode(''));
+    document.head.appendChild(style);
+    return style.sheet;
   }
 
   function getActiveElements() {
     return elements.map(function (node) {
-      return node.element
+      return node.element;
     })
   }
 
   function merge(target, source) {
     for (var key in source) if (hasOwn.call(source, key)) {
-      target[key] = source[key]
+      target[key] = source[key];
     }
-    return target
+    return target;
   }
 
-  exports.Domlight = Domlight
-  Domlight.defaults = defaults
-  Domlight.hideAll = hideAll
-  Domlight.isVisible = getVisibility
-  Domlight.getActiveElements = getActiveElements
-  Domlight.VERSION = VERSION
+  exports.Domlight = Domlight;
+  Domlight.defaults = defaults;
+  Domlight.hideAll = hideAll;
+  Domlight.isVisible = getVisibility;
+  Domlight.getActiveElements = getActiveElements;
+  Domlight.VERSION = VERSION;
 
-}))
+}));

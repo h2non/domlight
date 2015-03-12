@@ -9,6 +9,9 @@ function init() {
   function show() {
     var selector = $(this).attr('data-selector');
     var options = getOptions();
+    if ($(this).has('data-context')) {
+      options.context = $(this).attr('data-context');
+    }
     focusElement = Domlight($(selector), options);
   }
 
