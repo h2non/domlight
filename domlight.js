@@ -92,48 +92,48 @@
     }
 
     container.insertBefore(newDiv, container.firstChild);
-    overlay = newDiv
-    isSetup = true
+    overlay = newDiv;
+    isSetup = true;
 
-    addEvents(options)
-    addStylesheet(options)
+    addEvents(options);
+    addStylesheet(options);
   }
 
   function addEvents(options) {
     if (options.hideOnESC) {
-      window.addEventListener('keyup', keyupHandler)
+      window.addEventListener('keyup', keyupHandler);
     }
     if (options.hideOnClick) {
-      overlay.addEventListener('click', hideAll)
+      overlay.addEventListener('click', hideAll);
     }
   }
 
   function keyupHandler(event) {
     if (event.keyCode === 27 && isVisible) {
-      hideAll()
-      window.removeEventListener('keyup', keyupHandler)
+      hideAll();
+      window.removeEventListener('keyup', keyupHandler);
     }
   }
 
   function onBodyReady(fn, args) {
     document.onreadystatechange = function () {
       if (document.readyState === 'complete') {
-        body = document.body
-        fn.apply(null, args)
+        body = document.body;
+        fn.apply(null, args);
       }
     }
   }
 
   function spotlightElement(element, options) {
     if (document.readyState !== 'complete') {
-      return onBodyReady(spotlightElement, arguments)
+      return onBodyReady(spotlightElement, arguments);
     } else if (body == null) {
-      body = document.body
+      body = document.body;
     }
 
-    if (isSetup === false) { setup(options) }
+    if (isSetup === false) { setup(options); }
 
-    setFocus(element, options)
+    setFocus(element, options);
   }
 
   function setFocus(element, options) {
@@ -147,38 +147,46 @@
       element: element
     });
 
-    document.body.style.overflow = 'hidden'
+    if (options.context) {
+      document.querySelector(options.context).style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'hidden';
+    }
     if (position === 'static') {
-      element.style.position = 'relative'
+      element.style.position = 'relative';
     }
     if ((+zIndex || 1) < 10000) {
-      element.style.zIndex = 10000
+      element.style.zIndex = 10000;
     }
 
     if (isVisible === false) {
-      createColumns(element)
+      createColumns(element, options.context);
     }
-    overlay.style.display = 'block'
+    overlay.style.display = 'block';
 
     // the transition won't happen at the same time as display: block; create a short delay
     setTimeout(function() {
-      overlay.style.opacity = '1'
-    }, 50)
+      overlay.style.opacity = '1';
+    }, 50);
   }
 
   function hide(element) {
-    var index = findElement(element)
+    var index = findElement(element);
 
     if (index) {
-      restoreElementStyle(elements[index])
-      elements.splice(index, 1)
+      restoreElementStyle(elements[index]);
+      elements.splice(index, 1);
     }
 
     if (elements.length) {
-      clearColumns()
-      createColumns(elements[0].element)
+      clearColumns();
+      createColumns(elements[0].element);
+      if (document.querySelector('#' + NODE_ID) && document.querySelector('#' + NODE_ID).parentNode) {
+        document.querySelector('#' + NODE_ID).parentNode.removeChild(document.querySelector('#' + NODE_ID));
+        isSetup = false;
+      }
     } else {
-      hideAll()
+      hideAll();
     }
   }
 
@@ -198,8 +206,11 @@
     document.body.style.overflow = '';
     overlay.style.display = 'none';
     clearColumns();
-
     elements.splice(0).forEach(restoreElementStyle);
+    if (document.querySelector('#' + NODE_ID) && document.querySelector('#' + NODE_ID).parentNode) {
+      document.querySelector('#' + NODE_ID).parentNode.removeChild(document.querySelector('#' + NODE_ID));
+      isSetup = false;
+    }
   }
 
   function restoreElementStyle(node) {
@@ -207,36 +218,47 @@
     node.element.style.position = node.position;
   }
 
-  function createColumns(element) {
+  function createColumns(element, context) {
     var createdColumns = 0;
     isVisible = true;
     clearColumns();
 
     while (createdColumns < 4) {
-      createColumn(element, createdColumns);
+      createColumn(element, createdColumns, context);
       createdColumns += 1;
     }
   }
 
-  function createColumn(element, index) {
+  function createColumn(element, index, context) {
+    var top = 0,
+        left = 0,
+        width = px(element.clientWidth),
+        parentTop = 0,
+        parentLeft = 0,
+        height = '100%';
     var offset = element.getBoundingClientRect();
-    var top = 0, left = 0, width = px(element.clientWidth), height = '100%';
+    if (context) {
+      var contextOffset = document.querySelector(context).getBoundingClientRect();
+      parentTop = contextOffset.top;
+      parentLeft = contextOffset.left;
+    }
+
 
     switch (index) {
       case 0:
-        width = px(offset.left);
+        width = px(offset.left - parentLeft);
         break
       case 1:
-        left = px(offset.left);
-        height = px(offset.top);
+        left = px(offset.left - parentLeft);
+        height = px(offset.top - parentTop);
         break
       case 2:
-        left = px(offset.left);
-        top = px(element.clientHeight + offset.top);
+        left = px(offset.left - parentLeft);
+        top = px(element.clientHeight + offset.top - parentTop);
         break
       case 3:
         width = '100%'
-        left = px(element.clientWidth + offset.left)
+        left = px(element.clientWidth + offset.left - parentLeft);
         break
     }
 
