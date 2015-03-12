@@ -204,7 +204,9 @@
   function hideAll() {
     isVisible = false;
     document.body.style.overflow = '';
-    overlay.style.display = 'none';
+    if (overlay) {
+      overlay.style.display = 'none';
+    }
     clearColumns();
     elements.splice(0).forEach(restoreElementStyle);
     if (document.querySelector('#' + NODE_ID) && document.querySelector('#' + NODE_ID).parentNode) {
@@ -275,9 +277,11 @@
   }
 
   function clearColumns() {
-    var columns = overlay.querySelectorAll('#' + NODE_ID + ' .column');
-    for (var i = 0, l = columns.length; i < l; i += 1) {
-      columns[i].parentNode.removeChild(columns[i]);
+    if (overlay) {
+      var columns = overlay.querySelectorAll('#' + NODE_ID + ' .column');
+      for (var i = 0, l = columns.length; i < l; i += 1) {
+        columns[i].parentNode.removeChild(columns[i]);
+      }
     }
   }
 
